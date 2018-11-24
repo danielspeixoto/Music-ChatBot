@@ -1,3 +1,5 @@
+from SPARQLWrapper import JSON, SPARQLWrapper
+
 import tags
 
 identifiers = [
@@ -24,5 +26,46 @@ def genre(words):
              word[tags.WORD_INDEX] != 'kind']
     words = [word[tags.WORD_INDEX] for word in words]
     if len(words) > 0:
-        return ' '.join(words)
+        return sparql(words)
+    return None
+
+def sparql(artist):
+    wrapper = SPARQLWrapper("http://dbpedia.org/sparql")
+    wrapper.setReturnFormat(JSON)
+    wrapper.setQuery(
+        """ 
+PREFIX dbpedia-owl:  <http://dbpedia.org/ontology/>
+
+SELECT DISTINCT ?label WHERE {
+    ?thing foaf:name ?name ;
+    foaf:isPrimaryTopicOf ?url .
+    ?name  bif:contains "'%s'" .
+    {
+        ?thing dbpedia-owl:genre ?genre ;
+        a                 dbpedia-owl:Band
+    }
+    UNION
+    {
+        ?thing dbpedia-owl:genre ?genre ;
+        a                 dbpedia-owl:MusicalArtist
+    }
+    UNION
+    {
+        ?thing a <http://umbel.org/umbel/rc/MusicalPerformer>
+    }
+    
+    ?genre rdfs:label ?label
+    FILTER (LANG(?label) = 'en') 
+}
+LIMIT 5
+        """ % ' '.join(artist)
+    )
+
+    results = wrapper.query().convert()['results']['bindings']
+    if len(results) > 0:
+        genres = []
+        for result in results:
+            genres.append(result['label']['value'])
+        answer = ' '.join(artist) + " plays " + ', '.join(genres)
+        return answer
     return None
