@@ -3,7 +3,7 @@ from nltk.corpus import stopwords
 
 # Setup
 import tags
-from queries import genre
+from queries import genre, songs
 from contextlib import redirect_stdout
 import os
 from nltk.tag import tnt
@@ -11,12 +11,14 @@ from nltk.tag import tnt
 with redirect_stdout(open(os.devnull, "w")):
     nltk.download('punkt')
     nltk.download('averaged_perceptron_tagger')
+    nltk.download('stopwords')
 
     stop_words = stopwords.words('english')
 
 def route(word_tag):
     possible_matches = [
-        genre.match
+        genre.match,
+        songs.match
     ]
     for candidate in possible_matches:
         result = candidate(word_tag)
