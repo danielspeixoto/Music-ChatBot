@@ -3,7 +3,7 @@ from nltk.corpus import stopwords
 
 # Setup
 import tags
-from queries import genre, songs
+from queries import albumrelease, birthname, genre, songs
 from contextlib import redirect_stdout
 import os
 from nltk.tag import tnt
@@ -18,7 +18,9 @@ with redirect_stdout(open(os.devnull, "w")):
 def route(word_tag):
     possible_matches = [
         genre.match,
-        songs.match
+        songs.match,
+        albumrelease.match,
+        birthname.match
     ]
     for candidate in possible_matches:
         result = candidate(word_tag)
