@@ -11,7 +11,8 @@ identifiers = [
 def match(word_tag):
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
-    if first_word[tags.TAG_INDEX] == tags.WH_PRONOUN or first_word[tags.TAG_INDEX] == tags.WH_ADVERB:
+    if first_word[tags.TAG_INDEX] == tags.WH_PRONOUN or first_word[tags.TAG_INDEX] == tags.WH_ADVERB \
+            and first_word[tags.WORD_INDEX] != 'When':
         for identifier in identifiers:
             if identifier in sentence:
                 return birthPlace(word_tag)

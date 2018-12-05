@@ -4,8 +4,7 @@ import tags
  
 identifiers = [
     'release',
-    'album',
-    'date'
+    'album'
 ]
  
 def match(word_tag):
@@ -22,7 +21,8 @@ def match(word_tag):
 def album(words):
     words = [word for word in words
             if tags.NOUN_PROPER_SINGULAR in word[tags.TAG_INDEX] and \
-            word[tags.WORD_INDEX] not in identifiers]
+            word[tags.WORD_INDEX] not in identifiers and \
+             word[tags.WORD_INDEX] != 'birth']
     words = [word[tags.WORD_INDEX] for word in words]
     if len(words) > 0:
         return sparql(words)
@@ -43,6 +43,7 @@ def sparql(album):
         WHERE {
         ?thing foaf:name "%s"@en ;
         dbpedia2:thisAlbum ?y;
+        rdf:type dbo:Album;
         dbo:releaseDate ?date.
         
         }
