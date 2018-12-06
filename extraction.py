@@ -34,4 +34,3 @@ def process(sentence):
     words = nltk.word_tokenize(sentence)
     word_tag = nltk.pos_tag(words)
     return route(word_tag)
-

@@ -1,11 +1,8 @@
-import itertools
-
 from SPARQLWrapper import JSON, SPARQLWrapper
 
 import tags
 
 # senteças do tipo
-#
 # What are the songs on Houses of the Holy by Led Zeppelin?
 # What are the musics in Ben from Michael Jackson?
 # What are the musics on Ray of Light from Madonna?
@@ -22,6 +19,7 @@ identifiers_two = [
 ]
 
 def match(word_tag):
+    print(word_tag)
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
     if first_word[tags.TAG_INDEX] == tags.WH_DETERMINER or \
@@ -33,6 +31,7 @@ def match(word_tag):
                     if identifier_two in sentence:
                         album_name, artist = sentence.split(identifier_two, 1)
                         nothing_much, album_name = album_name.split(identifier_one, 1)
+                        print(artist)
                         return sparql(album_name.split(), artist[:-1].split())
 
 
@@ -72,14 +71,12 @@ SELECT  DISTINCT ?songs
        
         ?album dbp:title ?musics ;
           dbp:thisAlbum ?name;
-          dbo:artist ?artist;
-          rdf:type dbo:Album.
+          dbo:artist ?artist.
         ?musics rdfs:label ?songs.
         ?artist rdfs:label ?artistname.
         ?name bif:contains "'%s'".
         ?artistname bif:contains "'%s'"
-FILTER (LANG(?songs) = 'en') 
-   
+FILTER (LANG(?songs) = 'en')    
         
         
       } 

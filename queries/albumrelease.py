@@ -4,7 +4,8 @@ import tags
  
 identifiers = [
     'release',
-    'album'
+    'album',
+    'date'
 ]
  
 def match(word_tag):

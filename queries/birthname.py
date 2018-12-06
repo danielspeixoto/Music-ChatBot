@@ -9,6 +9,7 @@ identifiers = [
 ]
 
 def match(word_tag):
+    print(word_tag)
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
     if first_word[tags.TAG_INDEX] == tags.WH_PRONOUN:
@@ -17,11 +18,14 @@ def match(word_tag):
                 return birthName(word_tag)
 
 def birthName(words):
+    print(words)
     words = [word for word in words
              if tags.NOUN_PROPER_SINGULAR in word[tags.TAG_INDEX] and \
              word[tags.WORD_INDEX] not in identifiers and \
              word[tags.WORD_INDEX] != 'name']
+    print(words)
     words = [word[tags.WORD_INDEX] for word in words]
+    print(words)
     if len(words) > 0:
         return sparql(words)
     return None
