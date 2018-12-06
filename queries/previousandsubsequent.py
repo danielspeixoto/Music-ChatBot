@@ -9,7 +9,7 @@ identifiers = [
 ]
 
 def match(word_tag):
-    
+
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
     if first_word[tags.TAG_INDEX] == tags.WH_PRONOUN:
