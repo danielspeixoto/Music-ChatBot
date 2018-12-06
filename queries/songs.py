@@ -19,7 +19,6 @@ identifiers_two = [
 ]
 
 def match(word_tag):
-    print(word_tag)
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
     if first_word[tags.TAG_INDEX] == tags.WH_DETERMINER or \
@@ -31,7 +30,6 @@ def match(word_tag):
                     if identifier_two in sentence:
                         album_name, artist = sentence.split(identifier_two, 1)
                         nothing_much, album_name = album_name.split(identifier_one, 1)
-                        print(artist)
                         return sparql(album_name.split(), artist[:-1].split())
 
 

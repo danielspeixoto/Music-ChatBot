@@ -2,11 +2,9 @@ import nltk
 from nltk.corpus import stopwords
 
 # Setup
-import tags
-from queries import albumrelease, birthdate, birthname, birthplace, genre, songs
+from queries import albumrelease, birthdate, birthname, birthplace, genre, songs, books
 from contextlib import redirect_stdout
 import os
-from nltk.tag import tnt
 
 with redirect_stdout(open(os.devnull, "w")):
     nltk.download('punkt')
@@ -22,7 +20,8 @@ def route(word_tag):
         albumrelease.match,
         birthname.match,
         birthplace.match,
-        birthdate.match
+        birthdate.match,
+        books.match
     ]
     for candidate in possible_matches:
         result = candidate(word_tag)
