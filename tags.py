@@ -15,7 +15,17 @@ NOUN = 'NN'
 # common-carrier cabbage knuckle-duster Casino afghan shed thermostat
 # investment slide humour falloff slick wind hyena override subhumanity
 # machinist ...
-
+PREPOSITION = 'IN'
+#preposition or conjunction, subordinating
+ #   astride among uppon whether out inside pro despite on by throughout
+  #  below within for towards near behind atop around if like until below
+   # next into if beside
+DETERMINER = 'DT'
+#all an another any both del each either every half la many much nary
+ #   neither no some such that the them these this those
+CONJUNCTION = 'CC'
+#& 'n and both but either et for less minus neither nor or plus so
+#    therefore times v. versus vs. whether yet
 
 TAG_INDEX = 1
 WORD_INDEX = 0

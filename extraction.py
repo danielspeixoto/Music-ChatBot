@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 
 # Setup
-from queries import albumrelease, birthdate, birthname, birthplace, genre, songs, books
+from queries import albumrelease, birthdate, birthname, birthplace, genre, songs, books, previousandsubsequent
 from contextlib import redirect_stdout
 import os
 
@@ -21,7 +21,8 @@ def route(word_tag):
         birthname.match,
         birthplace.match,
         birthdate.match,
-        books.match
+        books.match,
+        previousandsubsequent.match
     ]
     for candidate in possible_matches:
         result = candidate(word_tag)

@@ -11,12 +11,12 @@ identifiers = [
 def match(word_tag):
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
-    if first_word[tags.TAG_INDEX] == tags.WH_DETERMINER:
+    if first_word[tags.TAG_INDEX] == tags.WH_DETERMINER or  first_word[tags.TAG_INDEX] == tags.WH_PRONOUN:
         for identifier in identifiers:
             if identifier in sentence:
-                return birthName(word_tag)
+                return books(word_tag)
 
-def birthName(words):
+def books(words):
     words = [word for word in words
              if tags.NOUN_PROPER_SINGULAR in word[tags.TAG_INDEX] and \
              word[tags.WORD_INDEX] not in identifiers]
@@ -26,7 +26,6 @@ def birthName(words):
     return None
 
 def sparql(writer):
-
     wrapper = SPARQLWrapper("http://dbpedia.org/sparql")
     wrapper.setReturnFormat(JSON)
     sql = (""" 
@@ -36,12 +35,12 @@ def sparql(writer):
 
            SELECT ?bookName, ?numberPages WHERE {
                 ?writer rdf:type dbo:Writer ;
-                        dbp:name ?label .
+                        rdfs:label ?label .
                 ?book dbo:author ?writer ;
                       dbo:numberOfPages ?numberPages ;
                       rdfs:label ?bookName
                 FILTER regex(?label, "^%s", "i")
-                FILTER (LANG(?bookName) = 'pt')
+                FILTER (LANG(?bookName) = 'en')
             }
            """ % ' '.join(writer))
     wrapper.setQuery(sql)
