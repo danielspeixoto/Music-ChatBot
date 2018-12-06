@@ -4,10 +4,12 @@ import tags
 
 identifiers = [
     'biography',
-    'resume'
+    'resume',
+    'Who'
 ]
 
 def match(word_tag):
+    print(word_tag)
     first_word = word_tag[0]
     sentence = ' '.join([word[tags.WORD_INDEX] for word in word_tag])
     if first_word[tags.TAG_INDEX] == tags.WH_PRONOUN:
@@ -35,17 +37,15 @@ def sparql(artist):
 
            SELECT ?biography
            WHERE  { 
-             ?person rdf:type dbo:MusicalArtist ;
+             ?person rdf:type dbo:Person ;
                      rdfs:label ?label ;
                      dbo:abstract ?biography
              FILTER regex(?label, "^%s", "i")
-             FILTER (LANG(?biography) = 'pt')
+             FILTER (LANG(?biography) = 'en')
            }
            LIMIT 1
            """ % ' '.join(artist)
     )
-
-
     results = wrapper.query().convert()['results']['bindings']
     if len(results) > 0:
        return results[0]["biography"]["value"]
